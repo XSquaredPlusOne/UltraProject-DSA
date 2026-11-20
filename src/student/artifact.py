@@ -6,16 +6,20 @@ class Artifact:
     """Expose read-only canonical identity, position, and nonnegative value."""
 
     def __init__(self, artifact_id: str, position: Position, value: int) -> None:
-        raise NotImplementedError("TODO Artifact: implement constructor and properties")
+        if value < 0:
+            raise ValueError("Artifact value cannot be negative!")
+        self.__artifact_id = artifact_id
+        self.__position = position
+        self.__value = value
 
     @property
     def artifact_id(self) -> str:
-        raise NotImplementedError("TODO Artifact.artifact_id")
+        return self.__artifact_id
 
     @property
     def position(self) -> Position:
-        raise NotImplementedError("TODO Artifact.position")
+        return self.__position
 
     @property
     def value(self) -> int:
-        raise NotImplementedError("TODO Artifact.value")
+        return self.__value

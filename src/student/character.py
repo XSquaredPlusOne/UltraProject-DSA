@@ -6,9 +6,10 @@ class Character:
     """Character(agent_id); expose a read-only str agent_id property."""
 
     def __init__(self, agent_id: str) -> None:
-        # Validate using public canonical values and retain your own state.
-        raise NotImplementedError("TODO Character: implement __init__ and agent_id")
+        if not isinstance(agent_id, str):
+            raise TypeError("agent_id must be a string!")
+        self.__agent_id = agent_id
 
     @property
     def agent_id(self) -> str:
-        raise NotImplementedError("TODO Character.agent_id")
+        return self.__agent_id
