@@ -5,6 +5,7 @@ from collections import deque
 from src.api import (
     ArtifactDefinition, CharacterDefinition, EnemyDefinition, GenerationFailure,
     LevelDefinition, LevelSpecification, Position, Terrain, TerrainGeneratorContract,
+    TerrainTopology,
 )
 
 
@@ -30,8 +31,16 @@ class LevelGenerator:
         if sum(1 for d in degrees.values() if d == 1) > specification.max_dead_end_tiles:
             raise GenerationFailure("LevelGenerator", "terrain has too many dead ends")
 
+        if specification.terrain_spec.topology in (
+                TerrainTopology.STRAIGHT_PATH, TerrainTopology.BENT_PATH):
+            endpoints = [cell for cell, degree in degrees.items() if degree == 1]
+            if len(endpoints) != 2:
+                raise GenerationFailure("LevelGenerator", "path terrain lacks two endpoints")
+        else:
+            endpoints = None
+
         for _ in range(max(1, specification.max_attempts)):
-            start, exit_pos = rng.sample(floor, 2)
+            start, exit_pos = rng.sample(endpoints or floor, 2)
             distance = self._route_length(floor_set, start, exit_pos, terrain)
             if distance is None:
                 continue

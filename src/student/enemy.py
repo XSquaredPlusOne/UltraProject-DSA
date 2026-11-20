@@ -6,6 +6,8 @@ class Enemy:
     """Expose read-only identity, position, and nonnegative encounter penalty."""
 
     def __init__(self, enemy_id: str, position: Position, encounter_penalty: int) -> None:
+        if type(encounter_penalty) is not int:
+            raise TypeError("encounter_penalty must be an integer!")
         if encounter_penalty < 0:
             raise ValueError("encounter_penalty cannot be negative!")
         self.__enemy_id = enemy_id

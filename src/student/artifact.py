@@ -1,11 +1,13 @@
 """TODO: implement initial artifact data; introductory gameplay has no artifacts."""
-from src.api import ArtifactDefinition, Position
+from src.api import Position
 
 
 class Artifact:
     """Expose read-only canonical identity, position, and nonnegative value."""
 
     def __init__(self, artifact_id: str, position: Position, value: int) -> None:
+        if type(value) is not int:
+            raise TypeError("Artifact value must be an integer!")
         if value < 0:
             raise ValueError("Artifact value cannot be negative!")
         self.__artifact_id = artifact_id
